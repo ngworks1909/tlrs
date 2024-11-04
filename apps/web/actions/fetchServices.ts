@@ -15,7 +15,7 @@ export async function fetchServices() {
     const services = await prisma.service.findMany();
 
     // Cache the services in Redis with a TTL (e.g., 1 hour)
-    await redis.set(cacheKey, JSON.stringify(services));
+    await redis.set(cacheKey, JSON.stringify(services), 'EX', 3600);
 
     return services;
 }
