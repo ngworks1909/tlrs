@@ -31,7 +31,7 @@ export default function UpdateProfile({user}: {user: ProfileData}) {
       const validateForm = (data: ProfileData) => {
         const isNameValid = data.name.length >= 4
         const isMobileValid = /^[0-9]{10}$/.test(data.mobile)
-        setIsFormValid(isNameValid && isMobileValid)
+        setIsFormValid((isNameValid && isMobileValid) || !previewImage)
       }
 
       const session:any = useSession();
@@ -78,6 +78,7 @@ export default function UpdateProfile({user}: {user: ProfileData}) {
         const url = await uploadPicture(file, userId);
         setPreviewImage(url)
         setFormData(prev => ({ ...prev, avatar: url }))
+        validateForm({ ...formData, avatar: url })
         }
       }
 
