@@ -31,6 +31,7 @@ export const navItems = [
 
 export default async function Navbar() {
   const session = await getServerSession(NEXT_AUTH_CONFIG);
+  console.log(session.user)
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-white bg-opacity-80 backdrop-blur-[5px] border-b shadow-sm">
