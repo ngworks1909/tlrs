@@ -14,6 +14,7 @@
     "./uploadfile": "./src/uploadFile.ts"
   },
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "firebase": "^11.0.1"
   }
 }
