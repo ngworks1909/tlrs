@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.className} ${geistMono.variable}`}>
+      <body className={`${geistSans.className} ${geistMono.variable} custom-scrollbar`}>
         <Providers>
         {   children}
         <Toaster/>
