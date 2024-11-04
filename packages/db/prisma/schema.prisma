@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  userId String @id @default(cuid())
+  username String 
+  email String @unique
+  password String
+  mobile String @unique
+  image String @default("https://github.com/shadcn.png")
+  token String @default("")
+  orders Order[]
+}
+
+model Service{
+  serviceId String @id @default(cuid())
+  serviceName ServiceType
+  content String
+  image String
+  options Option[]
+  orders Order[]
+}
+
+model Option{
+  optionId String @id @default(cuid())
+  optionName OptionType
+  image String
+  serviceId String
+  service Service @relation(fields: [serviceId], references: [serviceId])
+  duration Int
+  price Float
+  priority Int
+  remaining Int
+  orders Order[]
+}
+
+enum ServiceType {
+  SHIRT
+  PANT
+  DRESS
+  KURTA
+  SAFARI
+}
+
+enum OptionType {
+  NITRO
+  EXPRESS
+  SWIFT
+  RABBIT
+}
+
+model Order {
+  orderId String @id
+  userId String
+  user User @relation(fields: [userId], references: [userId])
+  serviceId String
+  service Service @relation(fields: [serviceId], references: [serviceId])
+  optionId String
+  option Option @relation(fields: [optionId], references: [optionId])
+  createdOn DateTime @default(now())
+  deliveredOn DateTime?
+  orderStatus OrderStatus @default(pending)
+  reason String?
+  amountPaid Float @default(0)
+}
+
+enum OrderStatus {
+  pending
+  started
+  stitched
+  delivered 
+  cancelled
+}
+
