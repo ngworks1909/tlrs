@@ -10,9 +10,9 @@ export default function Footer() {
           <div className="flex flex-col items-start">
             <div className="flex items-center gap-2 mb-4">
               <input
-                className="h-10 w-10 rounded-full"
+                className="h-10 w-10 rounded-full invert-[1]"
                 type="image"
-                src="https://firebasestorage.googleapis.com/v0/b/tlrs-893dc.appspot.com/o/logo.png?alt=media&token=e32751af-93b0-44ca-b42d-0dbc0e8cfe00"
+                src="https://firebasestorage.googleapis.com/v0/b/tlrs-893dc.appspot.com/o/images%2Flogo.png?alt=media&token=82381569-aa83-4112-9f3f-e59551e75f35"
                 alt="TLRS Logo"
               />
               <span className="text-2xl font-bold text-gray-800">TLRS</span>

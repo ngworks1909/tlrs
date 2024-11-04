@@ -3,7 +3,7 @@ import { storage } from "./firebase";
 
 export const uploadPicture = async(file: File, userId: string) => {
     try {
-        const storageRef = ref(storage, userId);
+        const storageRef = ref(storage, `users/${userId}`);
         if(file){
             await uploadBytesResumable(storageRef, file);
             const url = await getDownloadURL(storageRef)
