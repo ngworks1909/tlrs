@@ -19,7 +19,7 @@ export async function fetchTracks(trackId: string) {
     });
 
     // Cache the tracks in Redis with a TTL (e.g., 1 hour)
-    await redis.set(cacheKey, JSON.stringify(tracks), 'EX', 3600);
+    await redis.set(cacheKey, JSON.stringify(tracks));
 
     return tracks;
 }
