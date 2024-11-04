@@ -1,5 +1,5 @@
 import prisma from "@repo/db/client";
-import redis from "@repo/db/redis";// Import your Redis singleton connection
+import redis from "@/lib/redis";  // Import your Redis singleton connection
 
 export async function fetchTracks(trackId: string) {
     const cacheKey = `tracks:${trackId}`;

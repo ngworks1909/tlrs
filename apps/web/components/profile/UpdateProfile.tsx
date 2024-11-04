@@ -174,7 +174,7 @@ export default function UpdateProfile({user}: {user: ProfileData}) {
                           </Button>
                         </div>
                       </form>
-                    </DialogContent>
-                  </Dialog>
+          </DialogContent>
+      </Dialog>
   )
 }

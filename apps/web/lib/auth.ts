@@ -4,7 +4,6 @@ import { signinInput } from '@/zod/validateUser';
 import bcrypt from 'bcryptjs';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { JWTPayload, SignJWT, importJWK } from 'jose';
-import redis from '@repo/db/redis';
 
 
 const generateJWT = async (payload: JWTPayload) => {
@@ -35,29 +34,19 @@ export const NEXT_AUTH_CONFIG = {
                 return null;
               }
               try {
-                const cacheKey = `user:${email}`;
-                  const cachedUser = await redis.get(cacheKey);
-                  let user;
-
-                if (cachedUser) {
-                      // If user is found in Redis, parse and return it
-                      user = JSON.parse(cachedUser);
-                }
-                else{
-                  user = await prisma.user.findFirst({
-                    where: {
-                      email
-                    },
-                    select: {
-                      userId: true,
-                      username: true,
-                      email: true,
-                      password: true,
-                      image: true,
-                      mobile: true
-                    }
-                  });
-                }
+                const user = await prisma.user.findFirst({
+                  where: {
+                    email
+                  },
+                  select: {
+                    userId: true,
+                    username: true,
+                    email: true,
+                    password: true,
+                    image: true,
+                    mobile: true
+                  }
+                });
 
 
                 
@@ -67,7 +56,7 @@ export const NEXT_AUTH_CONFIG = {
                 const jwt = await generateJWT({
                     id: user.userId,
                 });
-                const updatedUser = await prisma.user.update({
+                await prisma.user.update({
                     where: {
                         userId: user.userId
                     },
@@ -75,7 +64,6 @@ export const NEXT_AUTH_CONFIG = {
                         token: jwt
                     }
                 })
-                await redis.set(cacheKey, JSON.stringify(updatedUser), 'EX', 3600);
                 return {
                   id: user.userId,
                   name: user.username,
