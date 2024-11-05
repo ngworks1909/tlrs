@@ -2,12 +2,9 @@ import React from 'react'
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Clock, Users } from "lucide-react"
-import NavSkeleton from '@/components/skeleton/NavSkeleton'
 
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-background">
-      <NavSkeleton/>
       <main className='mx-auto px-4 py-8'>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-fr">
           {[...Array(10)].map((_, index) => (
@@ -36,6 +33,5 @@ export default function Loading() {
           ))}
         </div>
       </main>
-    </div>
   )
 }

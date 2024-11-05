@@ -1,11 +1,9 @@
-import NavSkeleton from '@/components/skeleton/NavSkeleton'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-background">
-        <NavSkeleton/>
+
     <main>
       {/* Hero Section Skeleton */}
       <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20 px-4 sm:px-6 lg:px-8">
@@ -71,6 +69,5 @@ export default function Loading() {
         </div>
       </footer>
     </main>
-    </div>
   )
 }

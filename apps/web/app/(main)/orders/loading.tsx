@@ -1,11 +1,8 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import NavSkeleton from "@/components/skeleton/NavSkeleton"
 
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-background">
-      <NavSkeleton/>
       <main className="mx-auto px-4 py-8">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, i) => (
@@ -31,6 +28,5 @@ export default function Loading() {
           ))}
         </div>
       </main>
-    </div>
   )
 }
