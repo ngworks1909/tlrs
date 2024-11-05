@@ -30,7 +30,7 @@ export default function LoginButton({type}: {type: "Login" | "Signup"}) {
           description: "You have successfully signed up.",
           className: "bg-green-500 text-white"
         })
-        router.replace(`login`);
+        router.push('/login');
       }
       else{
         toast({
@@ -55,7 +55,8 @@ export default function LoginButton({type}: {type: "Login" | "Signup"}) {
           description: "You have successfully logged in.",
           className: "bg-green-500 text-white"
         })
-        router.replace(`/`);
+        router.push(`/`);
+        router.refresh()
       }
       else{
         toast({
