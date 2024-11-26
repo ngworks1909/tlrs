@@ -1,9 +1,8 @@
 import React from 'react'
 import Services from './Services'
-import Footer from '../footer/Footer'
+import Footer from '@/components/footer/Footer'
 import ExploreButton from './ExploreButton'
 import { fetchServices } from '@/actions/fetchServices'
-
 
 
 
@@ -25,10 +24,10 @@ export default async function Hero() {
           </div>
         </section>
         <section id="services" className="py-20 bg-muted">
-            <div className="container">
+          <div className="container">
             <h2 className="text-3xl font-bold text-center mb-12">Our Services</h2>
-            </div>
-         <Services services = {services} />
+          </div>
+          <Services services = {services} />
         </section>
 
         <Footer/>

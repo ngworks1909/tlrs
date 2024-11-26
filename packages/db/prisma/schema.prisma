@@ -24,6 +24,18 @@ model User{
   orders Order[]
 }
 
+model Admin{
+  adminId String @id @default(cuid())
+  adminName String
+  email String @unique
+  password String
+  mobile String @unique
+  image String @default("https://github.com/shadcn.png")
+  token String @default("")
+  transferredOrders Order[] @relation("Transferred")
+  orders Order[] @relation("Orders")
+}
+
 model Service{
   serviceId String @id @default(cuid())
   serviceName ServiceType
@@ -69,12 +81,26 @@ model Order {
   service Service @relation(fields: [serviceId], references: [serviceId])
   optionId String
   option Option @relation(fields: [optionId], references: [optionId])
+  adminId String
+  admin Admin @relation("Orders", fields: [adminId], references: [adminId])
+  assignedTo String? 
+  assignedAdmin Admin? @relation("Transferred", fields: [assignedTo], references: [adminId])
   createdOn DateTime @default(now())
   deliveredOn DateTime?
   orderStatus OrderStatus @default(pending)
   reason String?
   amountPaid Float @default(0)
+  measurements  Measurement[]
 }
+
+model Measurement {
+  id             String          @id @default(cuid())
+  order          Order           @relation(fields: [orderId], references: [orderId])
+  orderId        String
+  type           MeasurementType
+  value          Float
+}
+
 
 enum OrderStatus {
   pending
@@ -83,4 +109,18 @@ enum OrderStatus {
   delivered 
   cancelled
 }
+
+enum MeasurementType {
+  SHIRT_LENGTH
+  CHEST
+  SHOULDER
+  HANDS
+  FRONT_LOOSE
+  PANT_LENGTH
+  WAIST
+  HIP
+  THIGHS_LOOSE
+  BOTTOM
+}
+
 
