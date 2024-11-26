@@ -21,6 +21,7 @@ const generateJWT = async (payload: JWTPayload) => {
     return jwt;
   };
   
+  //no change
 
 export const NEXT_AUTH_CONFIG = {
     providers: [
