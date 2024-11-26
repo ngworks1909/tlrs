@@ -13,7 +13,7 @@ export default function Services({services}: Readonly<{services: ServiceType[]}>
   return (
      <div className="container mx-auto px-4">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {services.map((card, index) => (
+        {services && services.map((card, index) => (
           <Card key={index} className="flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="p-0">
               <div className="aspect-[6/3] sm:aspect-[4/3] relative overflow-hidden">
