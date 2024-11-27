@@ -14,8 +14,8 @@ export default function ProfileDetails({user}: Readonly<{user: {
         <AvatarFallback>NK</AvatarFallback>
       </Avatar>
       <div className='flex flex-col overflow-hidden'>
-        <h1 className="text-2xl font-bold truncate max-w-[200px] sm:max-w-[300px] md:max-w-full">{user.name}</h1>
-        <p className="text-muted-foreground truncate max-w-[200px] sm:max-w-[300px] md:max-w-full">{user.email}</p>
+        <h1 className="text-2xl font-bold truncate">{user.name}</h1>
+        <p className="text-muted-foreground truncate">{user.email}</p>
         <p className="text-muted-foreground">{user.mobile}</p>
       </div>
     </div>
