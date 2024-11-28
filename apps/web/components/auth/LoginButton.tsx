@@ -35,7 +35,7 @@ export default function LoginButton({type}: {type: "Login" | "Signup"}) {
       else{
         toast({
           title: "Signup Failed",
-          description: json.error,
+          description: json.message,
           variant: "destructive",
         })
       }
@@ -61,7 +61,7 @@ export default function LoginButton({type}: {type: "Login" | "Signup"}) {
       else{
         toast({
           title: "Login Failed",
-          description: "Login failed. Please check your credentials and try again.",
+          description: "Please check your credentials and try again.",
           variant: "destructive",
         })
       }

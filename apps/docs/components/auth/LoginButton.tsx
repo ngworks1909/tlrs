@@ -33,7 +33,7 @@ export default function LoginButton() {
       else{
         toast({
           title: "Login Failed",
-          description: "Login failed. Please check your credentials and try again.",
+          description: "Please check your credentials and try again.",
           variant: "destructive",
         })
       }

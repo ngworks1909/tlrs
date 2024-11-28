@@ -5,10 +5,9 @@ import bcrypt from 'bcryptjs'
 
 export async function POST(req: NextRequest){
     const body = await req.json();
-    let success = false;
     const signupSuccess = signupInput.safeParse(body);
     if(!signupSuccess){
-        return NextResponse.json({success, error: "Invalid inputs"})
+        return NextResponse.json({success: false, error: "Invalid inputs"})
     }
     const {username, email, password, mobile} = body;
     try {
@@ -21,7 +20,15 @@ export async function POST(req: NextRequest){
             }
         });
         if(existingUser) {
-            return NextResponse.json({success, error: 'User already exists'}, {status: 400});
+            return NextResponse.json({success: false, message: 'User already exists'}, {status: 400});
+        }
+        const existingMobile = await prisma.user.findFirst({
+            where: {
+                mobile
+            }
+        });
+        if(existingMobile) {
+            return NextResponse.json({success: false, message: 'Mobile number already exists'}, {status: 400});
         }
         const salt = await bcrypt.genSalt(10);
         const hashedpassword = await bcrypt.hash(password, salt);
@@ -36,10 +43,8 @@ export async function POST(req: NextRequest){
                 userId: true
             }
         });
-        success = true;
-        return NextResponse.json({success, message: "Signup successful"});
+        return NextResponse.json({success: true, message: "Signup successful"});
     } catch (error) {
-        success = false;
-        return NextResponse.json({success, error: 'Internal server error'}, {status: 500});
+        return NextResponse.json({success: false, message: 'Internal server error'}, {status: 500});
     }
 }
