@@ -61,7 +61,7 @@ export default function UpdateProfile({user}: {user: ProfileData}) {
           else{
             toast({
                 title: "Update Failed",
-                description: "Update failed. Please check your details and try again.",
+                description: `${json.message}`,
                 variant: "destructive",
             })
             setIsModalOpen(false)

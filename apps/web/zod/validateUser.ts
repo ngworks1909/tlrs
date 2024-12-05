@@ -2,7 +2,7 @@ import z from 'zod';
     
 export const signupInput = z.object({
     username: z.string().min(3),
-    email: z.string().email(),
+    authId: z.string(),
     password: z.string().min(6),
     mobile: z.string().min(10).max(10)
 })
@@ -22,3 +22,10 @@ export const updateInput = z.object({
 })
 
 export type UpdateInput = z.infer<typeof updateInput>
+
+export const verifyEmail = z.object({
+    email: z.string().email(),
+    otp: z.string().length(6)
+})
+
+export type VerifyEmail = z.infer<typeof verifyEmail>

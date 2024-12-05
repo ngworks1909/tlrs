@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,49 +7,87 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  userId String @id @default(cuid())
-  username String 
-  email String @unique
-  password String
-  mobile String @unique
-  image String @default("https://github.com/shadcn.png")
-  token String @default("")
-  orders Order[]
+model User {
+  userId         String   @id @default(cuid())
+  username       String
+  email          String   @unique
+  password       String
+  mobile         String   @unique
+  image          String   @default("https://github.com/shadcn.png")
+  token          String   @default("")
+  createdOn      DateTime @default(now())
+  orders         Order[]
 }
 
-model Admin{
-  adminId String @id @default(cuid())
-  adminName String
-  email String @unique
-  password String
-  mobile String @unique
-  image String @default("https://github.com/shadcn.png")
-  token String @default("")
+model Admin {
+  adminId           String  @id @default(cuid())
+  adminName         String
+  email             String  @unique
+  password          String
+  mobile            String  @unique
+  image             String  @default("https://github.com/shadcn.png")
+  token             String  @default("")
+  orders            Order[] @relation("Orders")
   transferredOrders Order[] @relation("Transferred")
-  orders Order[] @relation("Orders")
 }
 
-model Service{
-  serviceId String @id @default(cuid())
+model Service {
+  serviceId   String      @id @default(cuid())
   serviceName ServiceType
-  content String
-  image String
-  options Option[]
-  orders Order[]
+  content     String
+  image       String
+  options     Option[]
+  orders      Order[]
 }
 
-model Option{
-  optionId String @id @default(cuid())
+model Authenticator{
+  authId String @id @default(cuid())
+  email String @unique
+  otp String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+
+model Option {
+  optionId   String     @id @default(cuid())
   optionName OptionType
-  image String
-  serviceId String
-  service Service @relation(fields: [serviceId], references: [serviceId])
-  duration Int
-  price Float
-  priority Int
-  remaining Int
-  orders Order[]
+  image      String
+  serviceId  String
+  duration   Int
+  price      Float
+  priority   Int
+  remaining  Int
+  service    Service    @relation(fields: [serviceId], references: [serviceId])
+  orders     Order[]
+}
+
+model Order {
+  orderId       String        @id
+  userId        String
+  serviceId     String
+  optionId      String
+  createdOn     DateTime      @default(now())
+  deliveredOn   DateTime?
+  orderStatus   OrderStatus   @default(pending)
+  reason        String?
+  amountPaid    Float         @default(0)
+  adminId       String
+  assignedTo    String?
+  measurements  Measurement[]
+  admin         Admin         @relation("Orders", fields: [adminId], references: [adminId])
+  assignedAdmin Admin?        @relation("Transferred", fields: [assignedTo], references: [adminId])
+  option        Option        @relation(fields: [optionId], references: [optionId])
+  service       Service       @relation(fields: [serviceId], references: [serviceId])
+  user          User          @relation(fields: [userId], references: [userId])
+}
+
+model Measurement {
+  id      String          @id @default(cuid())
+  orderId String
+  type    MeasurementType
+  value   Float
+  order   Order           @relation(fields: [orderId], references: [orderId])
 }
 
 enum ServiceType {
@@ -73,40 +105,11 @@ enum OptionType {
   RABBIT
 }
 
-model Order {
-  orderId String @id
-  userId String
-  user User @relation(fields: [userId], references: [userId])
-  serviceId String
-  service Service @relation(fields: [serviceId], references: [serviceId])
-  optionId String
-  option Option @relation(fields: [optionId], references: [optionId])
-  adminId String
-  admin Admin @relation("Orders", fields: [adminId], references: [adminId])
-  assignedTo String? 
-  assignedAdmin Admin? @relation("Transferred", fields: [assignedTo], references: [adminId])
-  createdOn DateTime @default(now())
-  deliveredOn DateTime?
-  orderStatus OrderStatus @default(pending)
-  reason String?
-  amountPaid Float @default(0)
-  measurements  Measurement[]
-}
-
-model Measurement {
-  id             String          @id @default(cuid())
-  order          Order           @relation(fields: [orderId], references: [orderId])
-  orderId        String
-  type           MeasurementType
-  value          Float
-}
-
-
 enum OrderStatus {
   pending
   started
   stitched
-  delivered 
+  delivered
   cancelled
 }
 
@@ -122,5 +125,3 @@ enum MeasurementType {
   THIGHS_LOOSE
   BOTTOM
 }
-
-

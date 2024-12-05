@@ -14,7 +14,19 @@ type PropTypes = {
     label: string,
 }
 
-export default function Field({type, placeholder, name, label}: PropTypes) {
+const getIcon = (name: string) => {
+  if (name === "username") return <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />;
+  if (name === "email") return <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />;
+  if (name === "mobile") return <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />;
+  return <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />;
+};
+
+const getInputType = (name: string, type: string, showPassword: boolean) => {
+  if (name !== "password") return type;
+  return showPassword ? "text" : "password";
+};
+
+export default function Field({type, placeholder, name, label}: Readonly<PropTypes>) {
   const setUser = useSetRecoilState(UserState);
   const showPassword = useRecoilValue(PasswordState);
   const setShowPassword = useSetRecoilState(PasswordState)
@@ -27,16 +39,11 @@ export default function Field({type, placeholder, name, label}: PropTypes) {
     <div className="space-y-2">
         <Label htmlFor={name}>{label}</Label>
         <div className="relative">
-          {
-            name==="username"? <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />:
-            name==="email"? <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />:
-            name==="mobile"? <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />:
-            <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
-          }
+          {getIcon(name)}
           <Input
             id={name}
             placeholder={placeholder}
-            type={name !== "password" ? type: showPassword ? "text": "password"}
+            type={getInputType(name, type, showPassword)}
             onChange={handleChange}
             className="pl-10"
             required

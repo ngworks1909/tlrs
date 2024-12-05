@@ -8,7 +8,7 @@ import { JWTPayload, SignJWT, importJWK } from 'jose';
 
 const generateJWT = async (payload: JWTPayload) => {
     // eslint-disable-next-line turbo/no-undeclared-env-vars
-    const secret = process.env.JWT_SECRET || 'secret';
+    const secret = process.env.JWT_SECRET ?? 'secret';
   
     const jwk = await importJWK({ k: secret, alg: 'HS256', kty: 'oct' });
   
@@ -28,12 +28,12 @@ export const NEXT_AUTH_CONFIG = {
           name: "credentials",
           credentials: {},
           async authorize(credentials: any) {
-              const {email, password} = credentials;
-              const signSuccess = signinInput.safeParse({email, password})
-              if(!signSuccess){
-                return null;
-              }
               try {
+                const {email, password} = credentials;
+                const signSuccess = signinInput.safeParse({email, password})
+                if(!signSuccess){
+                  return null;
+                }
                 const user = await prisma.user.findFirst({
                   where: {
                     email
@@ -47,8 +47,6 @@ export const NEXT_AUTH_CONFIG = {
                     mobile: true
                   }
                 });
-
-
                 
                 if(!user || !await bcrypt.compare(password, user.password)){
                   return null;
