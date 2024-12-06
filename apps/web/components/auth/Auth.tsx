@@ -31,7 +31,7 @@ export default function Auth({type} : Readonly<{type: "Login" | "Signup" | "Deta
           </CardHeader>
           <CardContent>
           <form className="space-y-4">
-             {type === "Signup" && <Field type="email" name="email" placeholder="Enter your email" label="Email" />}
+             {(type === "Login" || type === "Signup") && <Field type="email" name="email" placeholder="Enter your email" label="Email" />}
              {type === "Details" && <Field type="text" name="username" placeholder="Enter your name" label="Name" />}
              {(type === "Login" || type === "Details") && <Field type="password" name="password" placeholder="Enter your password" label="Password" />}
              {type === "Details" && <Field type="tel" name="mobile" placeholder="Enter your mobile number" label="Mobile" />}

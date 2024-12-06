@@ -13,7 +13,7 @@ app.use(cors())
 
 
 const transporter = nodemailer.createTransport({
-  host: `${process.env.HOST}`,
+  host: `${process.env.SMTP_HOST}`,
   port: 587, // Use true for port 465, false for all other ports
   secure: false,
   auth: {
@@ -31,9 +31,7 @@ const generateOTP = () => {
 const subscribeToChannel = async() => {
   await subscriber.subscribe('send-mail');
   subscriber.on('message', async(channel, data) => {
-    console.log('message recieved')
       if(channel === 'send-mail'){
-          console.log('event recieved...')
           const message = JSON.parse(data)
           const emailValidate = validateEmail.safeParse(message);
           if(!emailValidate.success) return;
