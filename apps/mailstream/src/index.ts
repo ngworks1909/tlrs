@@ -13,12 +13,12 @@ app.use(cors())
 
 
 const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
+  host: `${process.env.HOST}`,
   port: 587, // Use true for port 465, false for all other ports
   secure: false,
   auth: {
-    user: "810796001@smtp-brevo.com",
-    pass: "dIZt72hX0cnTYKzL",
+    user: `${process.env.SMTP_USER}`,
+    pass: `${process.env.SMTP_PASSWORD}`,
   },
 });
 
@@ -54,7 +54,7 @@ const subscribeToChannel = async() => {
             },
           });
           await transporter.sendMail({
-            from: "app.tlrs@gmail.com", // sender address
+            from: `${process.env.SMTP_FROM}`, // sender address
             to: `${email}`, // recipient email address
             subject: "Your OTP for Tlrs Email Verification", // Subject line
             html: `
