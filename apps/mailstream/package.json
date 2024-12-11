@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx tsc -b && nodemon dist/index.js",
-    "build": "npx tsc -b"
+    "build": "cd ../../packages/db && npx prisma generate && cd ../../apps/mailstream && npx tsc -b",
+    "start": "nodemon dist/index.js"
   },
   "keywords": [],
   "author": "",
