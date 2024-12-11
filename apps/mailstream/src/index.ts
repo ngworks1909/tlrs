@@ -73,6 +73,10 @@ const subscribeToChannel = async() => {
 
 subscribeToChannel().catch(console.error)
 
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 
 
 
