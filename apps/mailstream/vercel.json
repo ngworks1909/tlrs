@@ -2,16 +2,14 @@
     "version": 2,
     "builds": [
       {
-        "src": "dist/index.js",
+        "src": "./dist/index.js",
         "use": "@vercel/node"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "/dist/index.js"
+        "dest": "/dist"
       }
-    ],
-    "buildCommand": "npm install && cd ../../packages/db && npx prisma generate && cd ../../apps/mailstream && npx tsc -b",
-    "outputDirectory": "dist"
+    ]
   }
