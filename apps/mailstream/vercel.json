@@ -18,7 +18,7 @@
         "maxDuration": 10
       }
     },
-    "ignoreCommand": "git diff --quiet HEAD^ HEAD ./src",
+    "ignoreCommand": "git diff --quiet main HEAD ./src",
     "installCommand": "npm install",
     "buildCommand": "cd ../../packages/db && npx prisma generate && cd ../../apps/mailstream && npx tsc -b",
     "startCommand": "nodemon dist/index.js",
