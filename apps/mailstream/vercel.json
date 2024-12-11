@@ -18,7 +18,6 @@
         "maxDuration": 10
       }
     },
-    "ignoreCommand": "git diff --quiet main HEAD ./src",
     "installCommand": "npm install",
     "buildCommand": "cd ../../packages/db && npx prisma generate && cd ../../apps/mailstream && npx tsc -b",
     "outputDirectory": "dist",
