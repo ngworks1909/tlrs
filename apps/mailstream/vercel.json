@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "buildCommand": "npm install && cd ../../ && npm install && cd packages/db && npx prisma generate && cd ../../apps/mailstream && npx tsc- b",
+  
   "builds": [
     {
       "src": "./src/**/*.ts",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "buildCommand": "npm install && cd ../../ && npm install && cd packages/db && npx prisma generate && cd ../../apps/mailstream && npx tsc- b"
     }
   ],
   "routes": [
