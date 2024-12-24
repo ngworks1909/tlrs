@@ -3,7 +3,10 @@
     "builds": [
       {
         "src": "/**/*",
-        "use": "@vercel/node"
+        "use": "@vercel/node",
+        "config": {
+            "buildCommand": "npx tsc -b"
+        }
       }
     ],
     "routes": [
