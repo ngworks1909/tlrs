@@ -10,10 +10,10 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "prisma": "^5.21.1"
+    "prisma": "^6.1.0"
   },
   "dependencies": {
-    "@prisma/client": "^5.21.1",
+    "@prisma/client": "^6.1.0",
     "ioredis": "^5.4.1"
   },
   "exports": {
