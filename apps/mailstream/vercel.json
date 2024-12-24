@@ -5,7 +5,7 @@
         "src": "/**/*",
         "use": "@vercel/node",
         "config": {
-            "buildCommand": "npx tsc -b"
+            "buildCommand": " ls && npx tsc -b"
         }
       }
     ],
