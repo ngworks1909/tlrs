@@ -56,7 +56,7 @@ export async function POST(req: NextRequest){
         const hashedpassword = await bcrypt.hash(password, salt);
         //
         await prisma.$transaction(async(tx) => {
-            await prisma.user.create({
+            await tx.user.create({
                 data: {
                     username,
                     email: normalizedEmail,
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest){
                     mobile
                 }
             });
-            await prisma.authenticator.delete({
+            await tx.authenticator.delete({
                 where: {
                     authId
                 }
