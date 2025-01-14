@@ -2,15 +2,18 @@ import { fetchTracks } from '@/actions/fetchTracks'
 import React from 'react'
 import PriceItem from './PriceItem';
 
-type Option = {
-    optionId: string;
-    optionName: string;
-    image: string;
-    serviceId: string;
-    duration: number;
-    price: number;
-    priority: number;
-    remaining: number;
+export type Option = {
+  optionId: string;
+  optionName: string;
+  image: string;
+  serviceId: string;
+  duration: number;
+  price: number;
+  priority: number;
+  remaining: number;
+  service: {
+      serviceName: string;
+  };
 }
 
 export default async function Tracks({trackId}: {trackId: string}) {

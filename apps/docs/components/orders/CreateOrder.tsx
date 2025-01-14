@@ -9,26 +9,24 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card } from "@/components/ui/card"
 import { useToast } from '@/hooks/use-toast'
+import { Option } from "../tracks/Tracks"
 export type Measurement = {
   type: string
   value: number
 }
 
-export default function CreateOrder() {
+export default function CreateOrder({orderDetails}: {orderDetails: Option}) {
   const router = useRouter()
   const {toast} = useToast()
-  const orderDetails = localStorage.getItem('orderDetails');
   
   const [measurements, setMeasurements] = useState<Measurement[]>([])
   const [amountPaid, setAmountPaid] = useState<string>("0")
   const [mobileNumber, setMobileNumber] = useState<string>("")
-  if(!orderDetails){
-    router.back()
-  }
-  const {serviceId, serviceName, optionId, optionName, price} = JSON.parse(orderDetails as string);
+
+  const {service, serviceId, optionName, optionId, price} = orderDetails
 
   const getMeasurementFields = () => {
-    switch (serviceName) {
+    switch (service.serviceName) {
       case "SHIRT":
         return ["SHIRT_LENGTH", "CHEST", "SHOULDER", "HANDS", "FRONT_LOOSE"]
       case "PANT":
@@ -109,7 +107,7 @@ export default function CreateOrder() {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="service">Service</Label>
-              <Input id="service" value={serviceName} disabled />
+              <Input id="service" value={service.serviceName} disabled />
             </div>
             <div className="space-y-2">
               <Label htmlFor="option">Option</Label>

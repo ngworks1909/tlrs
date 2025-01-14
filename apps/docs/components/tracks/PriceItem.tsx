@@ -37,7 +37,7 @@ export default function PriceItem({option}: Readonly<{option: Option}>) {
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">
-        <NewOrderButton optionId = {option.optionId} optionName = {option.optionName} serviceId = {option.serviceId} serviceName = {option.service.serviceName} price = {option.price} />
+        <NewOrderButton optionId = {option.optionId} serviceId = {option.serviceId} />
       </CardFooter>
     </Card>
 
