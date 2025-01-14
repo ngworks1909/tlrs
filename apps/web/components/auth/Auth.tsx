@@ -3,7 +3,6 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import Field from "./Field"
 import LoginButton from "./LoginButton"
-import OtpModal from "./OtpModal"
 
 export default function Auth({type} : Readonly<{type: "Login" | "Signup" | "Details"}>) {
 
@@ -20,9 +19,21 @@ export default function Auth({type} : Readonly<{type: "Login" | "Signup" | "Deta
   }
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <Card className="w-full max-w-md">
+    <div className="min-h-screen flex relative bg-gray-100 overflow-hidden">
+      {/* Magic UI Dot Pattern for entire page */}
+      <div className="absolute inset-0 z-0 opacity-50">
+        <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <defs>
+            <pattern id="dotPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1" fill="#94a3b8" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dotPattern)" />
+        </svg>
+      </div>
+
+      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 relative z-10">
+        <Card className="w-full max-w-md bg-white/80 backdrop-blur-sm">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-center">{getTitle()}</CardTitle>
             <CardDescription className="text-center">
@@ -58,7 +69,6 @@ export default function Auth({type} : Readonly<{type: "Login" | "Signup" | "Deta
           <p className="mt-4 font-semibold">- Sudhakar Reddy</p>
         </div>
       </div>
-      <OtpModal/>
     </div>
   )
 }

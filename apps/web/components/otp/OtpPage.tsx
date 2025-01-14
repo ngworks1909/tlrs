@@ -3,19 +3,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ArrowRight, Lock } from 'lucide-react'
-import { OtpModalState } from '@/atoms/OtpModalState'
-import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { toast } from "@/hooks/use-toast"
 import { useRouter } from 'next/navigation'
 
 const OTP_LENGTH = 6
 const RESEND_COOLDOWN = 120 // 2 minutes in seconds
 
-export default function OTPModal() {
-  const setOtpState = useSetRecoilState(OtpModalState);
-  const isOpen = useRecoilValue(OtpModalState)
+export default function OTPPage() {
   const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(''))
   const [activeIndex, setActiveIndex] = useState(0)
   const [canResend, setCanResend] = useState(true)
@@ -48,7 +43,7 @@ export default function OTPModal() {
   }, [otp])
 
   const handleChange = (index: number, value: string) => {
-    if (value.length <= 1) {
+    if (value.length <= 1 && /^\d*$/.test(value)) {
       const newOtp = [...otp]
       newOtp[index] = value
       setOtp(newOtp)
@@ -58,10 +53,6 @@ export default function OTPModal() {
         inputRefs.current[index + 1]?.focus()
       }
     }
-  }
-
-  const onClose = () => {
-    setOtpState(false)
   }
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -90,7 +81,6 @@ export default function OTPModal() {
             description: "An unexpected error occurred. Please try again.",
             variant: "destructive",
           })
-          onClose()
           setOtp(Array(OTP_LENGTH).fill(''))
           return
         }
@@ -144,8 +134,8 @@ export default function OTPModal() {
           description: "An unexpected error occurred. Please try again.",
           variant: "destructive",
         })
-        onClose()
         setOtp(Array(OTP_LENGTH).fill(''))
+        router.push("/signup")
       }
       const response = await fetch('/api/auth/verifyotp', {
         method: 'POST',
@@ -162,7 +152,6 @@ export default function OTPModal() {
           title: "Success",
           description: "OTP verified successfully!",
         })
-        onClose()
         setOtp(Array(OTP_LENGTH).fill(''));
         localStorage.removeItem("email");
         localStorage.setItem("authId", data.authId)
@@ -179,7 +168,6 @@ export default function OTPModal() {
         inputRefs.current[0]?.focus()
       }
     } catch (error) {
-      console.error('Error verifying OTP:', error)
       toast({
         title: "Error",
         description: "An unexpected error occurred. Please try again.",
@@ -201,12 +189,20 @@ export default function OTPModal() {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center">Verify Your Identity</DialogTitle>
-        </DialogHeader>
-        <div className="flex flex-col items-center space-y-6 py-6">
+    <div className="relative flex flex-col items-center justify-center min-h-screen bg-background overflow-hidden">
+      <div className="absolute inset-0 z-0 opacity-50">
+        <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <defs>
+            <pattern id="dotPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1" fill="#94a3b8" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dotPattern)" />
+        </svg>
+      </div>
+      <div className="w-full max-w-md p-8 space-y-8 bg-card rounded-lg shadow-lg relative z-10">
+        <h1 className="text-2xl font-bold text-center">Verify Your Identity</h1>
+        <div className="flex flex-col items-center space-y-6">
           <div className="bg-primary/10 p-3 rounded-full">
             <Lock className="w-6 h-6 text-primary" />
           </div>
@@ -241,19 +237,24 @@ export default function OTPModal() {
             variant="default"
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
           >
-
-            {isVerifying ? <>Verifying...</>: <>
-              {
-                canResend ? <>RESEND OTP</> : <>
+            {isVerifying ? <>
+                <svg className="w-5 h-5 mr-3 -ml-1 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+             {"Verifying..."}
+            </> : (
+              canResend ? <>RESEND OTP</> : (
+                <>
                   Resend in {formatTime(cooldownTime)}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </>
-              }
-            </>}
+              )
+            )}
           </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   )
 }
 
